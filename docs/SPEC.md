@@ -114,3 +114,28 @@ Ich sehe auf einen Blick, was offen ist, woran ich arbeite und was erledigt ist,
    - Gegeben: Aufgaben aus der alten Version sind gespeichert (eine erledigt, eine offen).
    - Wenn: Ich die neue Version öffne.
    - Dann: Alle Aufgaben sind noch da, im richtigen Zustand: die erledigte in «Erledigt», die offene in «Offen».
+
+### F2: Herbst-Hintergrund
+
+Ich sehe im Hintergrund bunte Blätter langsam herunterfallen und merke: Der Herbst hat begonnen.
+
+1. Fallende Blätter
+   - Gegeben: Ich öffne die Seite.
+   - Wenn: Ich einige Sekunden zuschaue.
+   - Dann: Mindestens 8 Blätter in mehreren Farben des Looks (Farben aus den CSS-Variablen, keine festen Werte) fallen hinter den Karten von oben nach unten, mit verschiedener Grösse, Geschwindigkeit und leichter Drehung; wenn ein Blatt unten ankommt, erscheint oben ein neues.
+2. Bedienung bleibt frei
+   - Gegeben: Die Blätter fallen.
+   - Wenn: Ich Aufgaben anlege, abhake, lösche oder die Taste «N» drücke.
+   - Dann: Die Blätter liegen hinter dem Inhalt, fangen keine Klicks ab, verdecken keinen Text und der Kontrast der Texte bleibt mindestens 4.5:1.
+3. Bewegung reduzieren
+   - Gegeben: Das System hat «Bewegung reduzieren» eingestellt.
+   - Wenn: Ich die Seite öffne.
+   - Dann: Die Blätter fallen nicht; sie stehen still oder sind nicht sichtbar.
+4. Schmales Fenster
+   - Gegeben: Das Fenster ist 360 px breit.
+   - Wenn: Ich die Seite ansehe und scrolle.
+   - Dann: Die Blätter verursachen kein seitliches Scrollen und die Seite bleibt flüssig bedienbar.
+5. Für Screenreader unsichtbar
+   - Gegeben: Ein Screenreader liest die Seite.
+   - Wenn: Er die Seite durchgeht.
+   - Dann: Die Blätter werden nicht vorgelesen (`aria-hidden`) und nehmen keinen Tastaturfokus.

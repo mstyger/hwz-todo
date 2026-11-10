@@ -41,6 +41,15 @@ Bau 2 (Board):
 - `src/features/tasks/components/TaskCard.tsx`: zeigt `status`, wird ziehbar (useSortable).
 - `src/App.tsx`: Board statt Liste, Seite `max-w-6xl`.
 - `src/features/tasks/components/TaskList.tsx`: entfällt, ersetzt durch das Board.
+
+Bau 3 (F2: Herbst-Hintergrund):
+
+- `src/features/autumn/model.ts`: reine Funktion `makeLeaves(count)` liefert Blätter (Position, Grösse, Dauer, Verzögerung, Drehung, Farbklasse).
+- `src/features/autumn/model.test.ts`: Tests für Anzahl, Wertebereiche und Farbklassen.
+- `src/features/autumn/components/FallingLeaves.tsx`: fester Hintergrund mit den Blättern, `aria-hidden`, `pointer-events-none`, hinter dem Inhalt.
+- `src/features/autumn/components/FallingLeaves.test.tsx`: Tests für Anzahl, `aria-hidden` und Klick-Durchlass.
+- `src/index.css`: Keyframes `leaf-fall`, bei «Bewegung reduzieren» still.
+- `src/App.tsx`: bindet `FallingLeaves` ein.
 - Tests daneben werden angepasst: `model.test.ts`, `storage.test.ts`, `useTasks.test.ts`, `TaskCard.test.tsx`.
 
 ## Datenmodell
@@ -63,8 +72,11 @@ export type State = {
 
 `localStorage "hwz-todo" = { version: 2, tasks: Task[] }`. Migration `migrateV1toV2` (docs/STACK.md, «Datenhaltung»): `done: true` → `status: 'done'`, `done: false` → `status: 'todo'`. Die Migration hat einen eigenen Test mit echten Daten im Format von Version 1. Kaputte oder fehlende Daten ergeben `{ version: 2, tasks: [] }`.
 
+Bau 3 ändert das Datenmodell nicht (Version bleibt 2, keine Migration). Die Blätter werden nicht gespeichert.
+
 ## Komponenten
 
+- FallingLeaves: 12 Blätter fallen langsam hinter dem Inhalt, Farben nur aus Token-Klassen (`bg-primary`, `bg-accent`, `bg-secondary`), `aria-hidden`, bei «Bewegung reduzieren» still (DESIGN.md, «Hintergrund» und Rezept 8).
 - App-Rahmen mit Hero «Meine Aufgaben», Datum und ProgressRing (DESIGN.md, Rezept 1), im Board `max-w-6xl`.
 - TaskInput: Eingabefeld mit Plus-Knopf, neue Aufgaben landen oben in «Offen» (DESIGN.md, Rezepte 2 und 9).
 - Board: drei Spalten nebeneinander, auf dem Handy seitlich wischbar, Drag and Drop mit Maus und Tastatur, DragOverlay, Konfetti beim Ablegen in «Erledigt» (DESIGN.md, Rezepte 6 und 8).
@@ -75,6 +87,6 @@ export type State = {
 
 ## Risiken
 
-- Gespeicherte Aufgaben aus Bau 1 gehen beim Umstieg verloren: Version 2 mit Migration und eigenem Test mit Daten im Format von Version 1 (AGENTS.md, Regel 9).
+- Blätter stören Bedienung, Kontrast oder 360 px: Container `fixed inset-0 -z-10 overflow-hidden pointer-events-none`, nur `transform` und `opacity` animiert, 12 Blätter, geringe Deckkraft; im Review mit Klick-Anleitung prüfen.
 - Ziehen lässt sich im Test-Browser (jsdom) nicht echt simulieren, weil dort alle Positionen 0 sind: Die ganze Logik (Ziel bestimmen, verschieben, Ansagen, Konfetti-Entscheid) liegt als reine Funktionen in `model.ts` mit Tests; das echte Ziehen kommt als Klick-Anleitung in /review.
 - Auf 360 px läuft das Board seitlich aus der Seite: Klassen aus DESIGN.md, Rezept 8 (`-mx-4 … overflow-x-auto`, Spalten `w-[85vw] shrink-0 snap-center`), nur die Spaltenleiste scrollt.

@@ -2,6 +2,7 @@ import { MotionConfig } from 'motion/react'
 import { ProgressRing } from '@/components/ProgressRing'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { FallingLeaves } from '@/features/autumn/components/FallingLeaves'
 import { EmptyState } from '@/features/tasks/components/EmptyState'
 import { TaskInput } from '@/features/tasks/components/TaskInput'
 import { Board } from '@/features/tasks/components/Board'
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <TooltipProvider>
+        <FallingLeaves />
         <main className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 sm:py-16">
           <header className="flex items-center justify-between gap-6">
             <div className="min-w-0">
