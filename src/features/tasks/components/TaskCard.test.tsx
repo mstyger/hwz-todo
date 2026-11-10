@@ -21,14 +21,16 @@ function seed() {
   )
 }
 
-describe('TaskList', () => {
+describe('Stored tasks', () => {
   it('shows two stored tasks after rendering, one of them done', () => {
     seed()
     render(<App />)
-    const items = within(screen.getByRole('list')).getAllByRole('listitem')
-    expect(items).toHaveLength(2)
-    expect(items[0]).toHaveTextContent('Einkaufen')
-    expect(items[1]).toHaveTextContent('Wäsche waschen')
+    const open = within(screen.getByRole('list', { name: 'Offen' })).getAllByRole('listitem')
+    const done = within(screen.getByRole('list', { name: 'Erledigt' })).getAllByRole('listitem')
+    expect(open).toHaveLength(1)
+    expect(open[0]).toHaveTextContent('Einkaufen')
+    expect(done).toHaveLength(1)
+    expect(done[0]).toHaveTextContent('Wäsche waschen')
     expect(screen.getByRole('checkbox', { name: '«Einkaufen» erledigt' })).not.toBeChecked()
     expect(screen.getByRole('checkbox', { name: '«Wäsche waschen» erledigt' })).toBeChecked()
   })
@@ -39,7 +41,7 @@ describe('TaskCard', () => {
     const title = 'x'.repeat(200)
     render(
       <ul>
-        <TaskCard task={{ id: '1', title, done: false, createdAt: 0 }} onToggle={() => {}} onRemove={() => () => {}} />
+        <TaskCard task={{ id: '1', title, status: 'todo', createdAt: 0 }} onToggle={() => {}} onRemove={() => () => {}} />
       </ul>,
     )
     const text = screen.getByText(title)
@@ -57,15 +59,23 @@ describe('TaskCard actions', () => {
     const user = userEvent.setup()
     seed()
     render(<App />)
-    const box = screen.getByRole('checkbox', { name: '«Einkaufen» erledigt' })
+    // The card glides into another column, so wait until only the new card is left.
+    const findBox = () =>
+      waitFor(() => {
+        const boxes = screen.getAllByRole('checkbox', { name: '«Einkaufen» erledigt' })
+        expect(boxes).toHaveLength(1)
+        return boxes[0]
+      })
+    const box = await findBox()
     await user.click(box)
-    expect(box).toBeChecked()
     expect(celebrate).toHaveBeenCalledTimes(1)
     expect(celebrate).toHaveBeenCalledWith(box)
-    await user.click(box)
-    expect(box).not.toBeChecked()
+    const checked = await findBox()
+    expect(checked).toBeChecked()
+    await user.click(checked)
+    expect(await findBox()).not.toBeChecked()
     expect(celebrate).toHaveBeenCalledTimes(1)
-    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '').tasks[0].done).toBe(false)
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '').tasks[0].status).toBe('todo')
   })
 
   it('deleting B and clicking «Rückgängig» restores B between A and C', async () => {

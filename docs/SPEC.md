@@ -70,4 +70,47 @@ Neon
 
 ## Features
 
-(leer)
+### F1: Board mit drei Spalten
+
+Ich sehe auf einen Blick, was offen ist, woran ich arbeite und was erledigt ist, und schiebe Karten per Drag and Drop weiter.
+
+1. Drei Spalten
+   - Gegeben: Es gibt Aufgaben in allen drei Zuständen.
+   - Wenn: Ich die Seite öffne.
+   - Dann: Ich sehe die Spalten «Offen», «In Arbeit» und «Erledigt» in dieser Reihenfolge, jede mit ihren Karten und einem Zähler mit der Anzahl Karten im Kopf.
+2. Neue Aufgabe
+   - Gegeben: Das Board ist offen.
+   - Wenn: Ich «Neu» eintippe und Enter drücke.
+   - Dann: «Neu» erscheint oben in der Spalte «Offen».
+3. Ziehen mit der Maus
+   - Gegeben: Eine Karte «A» liegt in «Offen».
+   - Wenn: Ich sie mit der Maus in die Spalte «In Arbeit» ziehe und loslasse.
+   - Dann: Während des Ziehens leuchtet «In Arbeit»; danach liegt «A» dort, und nach dem Neuladen immer noch.
+4. Reihenfolge in einer Spalte
+   - Gegeben: In «Offen» liegen «A», «B», «C» untereinander.
+   - Wenn: Ich «C» über «A» ziehe.
+   - Dann: Die Reihenfolge ist «C», «A», «B», auch nach dem Neuladen.
+5. Ziehen per Tastatur
+   - Gegeben: Der Fokus liegt auf einer Karte in «Offen».
+   - Wenn: Ich Leertaste drücke, mit der Pfeiltaste nach rechts gehe und wieder Leertaste drücke.
+   - Dann: Die Karte liegt in «In Arbeit», und ein Screenreader hört eine deutsche Ansage; Esc während des Ziehens bricht ab und die Karte bleibt, wo sie war.
+6. In «Erledigt» ablegen
+   - Gegeben: Eine Karte liegt in «In Arbeit», der Ring zeigt «0/1».
+   - Wenn: Ich sie in «Erledigt» ziehe.
+   - Dann: Konfetti erscheint, der Text ist durchgestrichen und der Ring zeigt «1/1».
+7. Checkbox im Board
+   - Gegeben: Eine Karte liegt in «Offen» oder «In Arbeit».
+   - Wenn: Ich die Checkbox anklicke.
+   - Dann: Die Karte wandert nach «Erledigt»; ein erneuter Klick schiebt sie zurück nach «Offen».
+8. Leere Spalte
+   - Gegeben: Die Spalte «In Arbeit» hat keine Karten.
+   - Wenn: Ich das Board ansehe.
+   - Dann: Dort steht ein gestrichelter Bereich mit «Hierher ziehen».
+9. Schmales Fenster
+   - Gegeben: Das Fenster ist 360 px breit.
+   - Wenn: Ich das Board ansehe.
+   - Dann: Ich sehe jeweils eine Spalte und wische seitlich zur nächsten; die Seite selbst scrollt nicht seitlich.
+10. Alte Daten
+   - Gegeben: Aufgaben aus der alten Version sind gespeichert (eine erledigt, eine offen).
+   - Wenn: Ich die neue Version öffne.
+   - Dann: Alle Aufgaben sind noch da, im richtigen Zustand: die erledigte in «Erledigt», die offene in «Offen».

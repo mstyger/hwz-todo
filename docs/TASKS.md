@@ -51,4 +51,34 @@ Format je Task:
 - Dateien: src/components/ProgressRing.tsx, src/components/ProgressRing.test.tsx, src/features/tasks/components/EmptyState.tsx, src/App.tsx.
 - Test zuerst: Ring hat aria-label «3 von 5 erledigt» und zeigt «3/5»; leere Liste zeigt «Alles erledigt. Zeit für Kaffee.» und «0/0».
 - Fertig wenn: «Fortschrittsring», «Leerer Zustand» und «Schmales Fenster» (ganze Seite bei 360 px) erfüllt (DESIGN.md, Rezepte 1 und 5), npm run check grün.
+
+[x] 7  Migration mit Test
+- Ziel: Aufgaben haben `status` («Offen», «In Arbeit», «Erledigt») statt `done`, gespeicherte Aufgaben aus Bau 1 bleiben erhalten, die App sieht noch aus wie vorher.
+- Dateien: src/features/tasks/model.ts, src/features/tasks/model.test.ts, src/lib/storage.ts, src/lib/storage.test.ts, src/features/tasks/useTasks.ts, src/features/tasks/useTasks.test.ts, src/features/tasks/components/TaskCard.tsx, src/features/tasks/components/TaskCard.test.tsx.
+- Test zuerst: migrateV1toV2 macht aus `done: true` → `status: 'done'` und aus `done: false` → `status: 'todo'`; loadState mit Version-1-Daten liefert Version 2 mit allen Aufgaben; toggleTask schiebt `todo`/`doing` → `done` und `done` → `todo`.
+- Fertig wenn: «Alte Daten» und die Logik von «Checkbox im Board» erfüllt, alle bisherigen Tests grün, npm run check grün.
+
+[x] 8  Verschieben im Model
+- Ziel: Eine Aufgabe lässt sich per reiner Funktion in eine Spalte und an eine Position verschieben, und das Ziel eines Drops wird berechnet.
+- Dateien: src/features/tasks/model.ts, src/features/tasks/model.test.ts, src/features/tasks/useTasks.ts, src/features/tasks/useTasks.test.ts.
+- Test zuerst: moveTask(tasks, 'C', 'todo', 0) ergibt in «Offen» «C», «A», «B»; moveTask nach `doing` ändert den Status; resolveDrop über einer Spalte legt ans Ende, über einer Karte an deren Stelle; tasksByStatus gruppiert in der richtigen Reihenfolge; useTasks.move speichert und übersteht Neuladen.
+- Fertig wenn: «Reihenfolge in einer Spalte» auf Model-Ebene belegt, npm run check grün.
+
+[x] 9  Board mit drei Spalten
+- Ziel: Statt der Liste erscheinen die Spalten «Offen», «In Arbeit» und «Erledigt» mit Zähler; auf dem Handy wischt man seitlich.
+- Dateien: src/features/tasks/components/Board.tsx, src/features/tasks/components/BoardColumn.tsx, src/features/tasks/components/Board.test.tsx, src/features/tasks/components/TaskList.tsx, src/features/tasks/components/TaskCard.test.tsx, src/App.tsx.
+- Test zuerst: Board zeigt drei Überschriften in der richtigen Reihenfolge mit Zählern; eine leere Spalte zeigt «Hierher ziehen»; neue Aufgabe erscheint oben in «Offen»; Checkbox in «Offen» schiebt die Karte nach «Erledigt», erneuter Klick zurück nach «Offen».
+- Fertig wenn: «Drei Spalten», «Neue Aufgabe», «Leere Spalte», «Checkbox im Board» und «Schmales Fenster» erfüllt (DESIGN.md, Rezepte 6 und 8), TaskList.tsx entfernt, npm run check grün.
+
+[x] 10  Drag and Drop mit der Maus
+- Ziel: Karten lassen sich mit der Maus zwischen Spalten und innerhalb einer Spalte ziehen, die Zielspalte leuchtet, eine schräge Kopie folgt dem Zeiger.
+- Dateien: src/features/tasks/components/Board.tsx, src/features/tasks/components/BoardColumn.tsx, src/features/tasks/components/TaskCard.tsx, src/features/tasks/components/Board.test.tsx.
+- Test zuerst: Jede Karte hat die Ziehen-Attribute von dnd-kit (`aria-roledescription`), und der Drop-Handler des Boards ruft bei einem simulierten Drop-Ereignis move mit dem Ergebnis von resolveDrop auf.
+- Fertig wenn: «Ziehen mit der Maus» und «Reihenfolge in einer Spalte» erfüllt (DESIGN.md, Rezept 6), npm run check grün.
+
+[x] 11  Tastatur, Ansagen und Konfetti
+- Ziel: Ziehen per Tastatur mit deutschen Screenreader-Ansagen, Esc bricht ab, Ablegen in «Erledigt» zeigt Konfetti.
+- Dateien: src/features/tasks/model.ts, src/features/tasks/model.test.ts, src/features/tasks/components/Board.tsx, src/features/tasks/components/Board.test.tsx.
+- Test zuerst: dragAnnouncements liefert deutsche Sätze wie «Aufgabe «A» aufgenommen.» und «Aufgabe «A» in «In Arbeit» abgelegt.»; der Drop nach `done` aus einer anderen Spalte ruft celebrate auf, innerhalb von «Erledigt» nicht.
+- Fertig wenn: «Ziehen per Tastatur» und «In «Erledigt» ablegen» erfüllt (DESIGN.md, Rezept 6), npm run check grün.
 ```

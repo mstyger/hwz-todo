@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import App from '@/App'
 
 function titles() {
-  return within(screen.getByRole('list'))
+  return within(screen.getByRole('list', { name: 'Offen' }))
     .queryAllByRole('listitem')
     .map((li) => li.textContent)
 }
