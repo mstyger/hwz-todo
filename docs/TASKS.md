@@ -81,4 +81,16 @@ Format je Task:
 - Dateien: src/features/tasks/model.ts, src/features/tasks/model.test.ts, src/features/tasks/components/Board.tsx, src/features/tasks/components/Board.test.tsx.
 - Test zuerst: dragAnnouncements liefert deutsche Sätze wie «Aufgabe «A» aufgenommen.» und «Aufgabe «A» in «In Arbeit» abgelegt.»; der Drop nach `done` aus einer anderen Spalte ruft celebrate auf, innerhalb von «Erledigt» nicht.
 - Fertig wenn: «Ziehen per Tastatur» und «In «Erledigt» ablegen» erfüllt (DESIGN.md, Rezept 6), npm run check grün.
+
+[x] 12  Blätter im Model
+- Ziel: Eine reine Funktion liefert die Daten für fallende Blätter.
+- Dateien: src/features/autumn/model.ts, src/features/autumn/model.test.ts.
+- Test zuerst: makeLeaves(12) liefert 12 Blätter mit verschiedenen Grössen, Dauern und Verzögerungen in festen Bereichen und mindestens 3 verschiedenen Farbklassen aus den Tokens.
+- Fertig wenn: Logik von «Fallende Blätter» (mindestens 8, mehrere Farben, verschiedene Grösse und Geschwindigkeit) belegt, npm run check grün.
+
+[x] 13  Blätter anzeigen
+- Ziel: Bunte Blätter fallen hinter dem Inhalt, ohne Klicks zu fangen und ohne seitliches Scrollen.
+- Dateien: src/features/autumn/components/FallingLeaves.tsx, src/features/autumn/components/FallingLeaves.test.tsx, src/index.css, src/App.tsx.
+- Test zuerst: FallingLeaves rendert mindestens 8 Blätter in einem Container mit `aria-hidden="true"` und `pointer-events-none`, ohne fokussierbare Elemente; App enthält den Container.
+- Fertig wenn: «Fallende Blätter», «Bedienung bleibt frei», «Bewegung reduzieren» (Keyframes stehen bei prefers-reduced-motion still), «Schmales Fenster» und «Für Screenreader unsichtbar» erfüllt (DESIGN.md, Hintergrund und Rezept 8), alle bisherigen Tests grün, npm run check grün.
 ```

@@ -89,6 +89,13 @@
     60% { transform: scale(1.15); }
     100% { transform: scale(1); }
   }
+  @keyframes leaf-fall {
+    0% { transform: translate3d(0, -10vh, 0) rotate(0deg); }
+    25% { transform: translate3d(3vw, 25vh, 0) rotate(90deg); }
+    50% { transform: translate3d(-3vw, 55vh, 0) rotate(200deg); }
+    75% { transform: translate3d(3vw, 85vh, 0) rotate(290deg); }
+    100% { transform: translate3d(0, 110vh, 0) rotate(380deg); }
+  }
   @keyframes mesh {
     0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
     50% { transform: translate3d(-4%, 3%, 0) rotate(8deg) scale(1.08); }
@@ -316,7 +323,18 @@
     body::before {
       animation: none !important;
     }
+    .leaf {
+      animation: none !important;
+    }
   }
+}
+
+/* Fallende Blätter (Herbst-Hintergrund) */
+.leaf {
+  animation-name: leaf-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
 }
 
 /* ==========================================================================
